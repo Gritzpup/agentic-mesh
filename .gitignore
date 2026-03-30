@@ -1,0 +1,14 @@
+# Node / UI
+node_modules/
+dist/
+.env
+.vercel
+
+# Project specific
+mesh_brain.db
+*.log
+Tiltfile.local
+
+# OS
+.DS_Store
+Thumbs.db

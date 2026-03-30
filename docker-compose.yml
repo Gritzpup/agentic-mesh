@@ -1,0 +1,23 @@
+version: '3'
+services:
+  mesh-ui:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    ports:
+      - "5188:5188"
+    volumes:
+      - ./mesh_brain.db:/app/mesh_brain.db
+      - ./ui:/app
+      - /app/node_modules
+    environment:
+      - VITE_PORT=5188
+
+  mesh-mcp:
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+    volumes:
+      - ./mesh_brain.db:/app/mesh_brain.db
+      - ./src:/app
+      - /app/node_modules
