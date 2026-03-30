@@ -47,12 +47,10 @@
 
   function getMaterial(color: string) {
     if (materialCache.has(color)) return materialCache.get(color);
-    const material = new THREE.MeshLambertMaterial({ 
+    const material = new THREE.MeshBasicMaterial({ 
       color,
       transparent: true,
-      opacity: 0.9,
-      emissive: color,
-      emissiveIntensity: 1.2 // 🛡️ BALANCED: Bright at distance, comfortable up close
+      opacity: 0.95 // 🛡️ PURITY: Basic material ignores light/reflections
     });
     materialCache.set(color, material);
     return material;
@@ -192,7 +190,7 @@
         const spriteMaterial = new THREE.SpriteMaterial({ 
           map: texture, 
           transparent: true, 
-          blending: THREE.AdditiveBlending,
+          blending: THREE.NormalBlending, // 🛡️ ISO_COLOR: Prevents color mixing/leaking from neighbors
           opacity: 0.9,
           depthWrite: false 
         });
@@ -244,11 +242,11 @@
       controls.addEventListener('end', () => { isInteracting = false; });
     }
 
-    // 🏎 RENDERING ENGINE: Balanced High-Fidelity (Neon but comfortable)
+    // 🏎 RENDERING ENGINE: Isolated High-Fidelity
     const bloomPass = new UnrealBloomPass(
       new THREE.Vector2(container.offsetWidth, container.offsetHeight),
-      1.6, // 🛡️ BALANCED: Strong core glow
-      0.5, // 🛡️ TIGHT: Professional radius
+      1.6, // 🚀 VIBRANT_FORCE
+      0.2, // 🛡️ TIGHT_ISO: Prevents color bleeding/leaking between neighbors
       0.1  // 🛡️ SHARP: Keeps details clear
     );
     graph.postProcessingComposer().addPass(bloomPass);
