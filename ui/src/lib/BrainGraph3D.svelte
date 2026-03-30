@@ -165,8 +165,12 @@
         const group = new THREE.Group();
         
         // Core Node & Status Logic
+        // 🛡️ IDENTITY_PROTECTION: Agents and Skills stay their signature color regardless of status
+        const isIdentityNode = node.group === 'agent' || node.group === 'skill';
         const baseColor = colorMap[node.group as keyof typeof colorMap] || '#ffffff';
-        const color = node.status && colorMap[node.status as keyof typeof colorMap] ? colorMap[node.status as keyof typeof colorMap] : baseColor;
+        const color = (!isIdentityNode && node.status && colorMap[node.status as keyof typeof colorMap]) 
+          ? colorMap[node.status as keyof typeof colorMap] 
+          : baseColor;
         
         const geometry = node.group === 'skill' ? sharedOctaGeometry : sharedSphereGeometry;
         const mesh = new THREE.Mesh(geometry, getMaterial(color)!);
